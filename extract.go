@@ -6,6 +6,7 @@ import (
 	"strings"
 )
 
+// Extract a list of accession numbers (as `Match` instances) from text, using regular expressions defined in defs.
 func ExtractFromText(text string, defs ...*Definition) ([]*Match, error) {
 
 	matches := make([]*Match, 0)
@@ -26,6 +27,7 @@ func ExtractFromText(text string, defs ...*Definition) ([]*Match, error) {
 	return matches, nil
 }
 
+// Extract a list of accession numbers (as `Match` instances) from text, using regular expressions defined in def.
 func ExtractFromTextWithDefinition(text string, def *Definition) ([]*Match, error) {
 
 	matches := make([]*Match, 0)
@@ -47,6 +49,7 @@ func ExtractFromTextWithDefinition(text string, def *Definition) ([]*Match, erro
 	return matches, nil
 }
 
+// Extract a list of accession numbers (as `Match` instances) from text, using regular expressions defined in pat.
 func ExtractFromTextWithPattern(text string, pat *Pattern) ([]*Match, error) {
 
 	matches := make([]*Match, 0)
@@ -65,6 +68,7 @@ func ExtractFromTextWithPattern(text string, pat *Pattern) ([]*Match, error) {
 	return matches, nil
 }
 
+// Extract a list of accession numbers (as strings) from text, using a regular expression pattern defined by pat.
 func FindMatches(text string, pat string) ([]string, error) {
 
 	// Specifically we are looking for accession numbers at the end
