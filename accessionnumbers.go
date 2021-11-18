@@ -5,7 +5,7 @@ type Definition struct {
 	// The name of the organization associated with this definition.
 	OrganizationName string `json:"name`
 	// The URL of the organization associated with this definition.
-	OrganiztionURL string `json:"url"`
+	OrganizationURL string `json:"url"`
 	// A valid URI template (RFC 6570) used to generate the URL for an object given its accession number.
 	ObjectURL string `json:"object_url,omitempty"`
 	// A valid URI template (RFC 6570) used to generate the IIIF manifest URL for an object given its accession number.
