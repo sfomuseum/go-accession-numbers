@@ -12,6 +12,8 @@ type Definition struct {
 	IIIFManifest string `json:"iiif_manifest,omitempty"`
 	// A valid URI template (RFC 6570) used to generate an OEmbed profile URL for an object given its accession number.
 	OEmbedProfile string `json:"oembed_profile,omitempty"`
+	// A valid Who's On First ID representing the organization.
+	WhosOnFirstId int64 `json:"whosonfirst_id,omitempty"`
 	// The set of patterns used to identify and extract accession numbers associated with an organization.
 	Patterns []*Pattern `json:"patterns"`
 }
