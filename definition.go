@@ -24,13 +24,28 @@ type Definition struct {
 }
 
 func (def *Definition) IIIFManifestURL(accession_number string) (*url.URL, error) {
+
+	if def.IIIFManifestTemplate == "" {
+		return nil, fmt.Errorf("IIIFManifestURLTemplate is undefined")
+	}
+
 	return nil, fmt.Errorf("Not implemented")
 }
 
 func (def *Definition) OEmbedProfileURL(accession_number string) (*url.URL, error) {
+
+	if def.OEmbedProfileTemplate == "" {
+		return nil, fmt.Errorf("OEmbedProfileURLTemplate is undefined")
+	}
+
 	return nil, fmt.Errorf("Not implemented")
 }
 
 func (def *Definition) ObjectURL(accession_number string) (*url.URL, error) {
+
+	if def.ObjectURLTemplate == "" {
+		return nil, fmt.Errorf("ObjectURLTemplate is undefined")
+	}
+
 	return nil, fmt.Errorf("Not implemented")
 }

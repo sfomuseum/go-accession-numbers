@@ -7,8 +7,3 @@ type Match struct {
 	// The URL of the organization that the accession number is associated with. Wherever possible this should match the `OrganizationURL` property in a `Defintion` struct.
 	OrganizationURL string `json:"organization,omitempty"`
 }
-
-
-
-	
-	
