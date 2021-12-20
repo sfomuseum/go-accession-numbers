@@ -1,5 +1,6 @@
 cli:
 	go build -mod vendor -o bin/twilio-handler cmd/twilio-handler/main.go
+	go build -mod vendor -o bin/flatten-definition cmd/flatten-definition/main.go
 
 lambda:
 	@make lambda-twilio-handler
