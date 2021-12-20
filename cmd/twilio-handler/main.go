@@ -1,12 +1,26 @@
 package main
 
+/*
+
+$> go run -mod vendor cmd/twilio-handler/main.go -definition-uri 'file:///usr/local/sfomuseum/accession-numbers/data/sfomuseum.org.json'
+2021/12/20 12:01:11 Listening on http://localhost:8080
+
+$> curl -X POST -H 'Content-type: application/x-www-form-urlencoded' -d 'Body=Hello world 1994.18.175' http://localhost:8080
+The following objects were found in that text:
+https://collection.sfomuseum.org/objects/1994.18.175
+
+*/
+
 import (
 	"context"
-	_ "encoding/json"
+	"encoding/json"
 	"fmt"
 	"github.com/aaronland/go-http-server"
 	"github.com/sfomuseum/go-accession-numbers"
 	"github.com/sfomuseum/go-flags/flagset"
+	"github.com/sfomuseum/runtimevar"
+	_ "gocloud.dev/runtimevar/constantvar"
+	_ "gocloud.dev/runtimevar/filevar"
 	"log"
 	"net/http"
 	"strings"
@@ -68,10 +82,10 @@ func AccessionNumbersHandler(def *accessionnumbers.Definition) http.Handler {
 
 func main() {
 
-	fs := flagset.NewFlagSet("accession numbers")
+	fs := flagset.NewFlagSet("twilio")
 
-	server_uri := fs.String("server-uri", "http://localhost:8080", "A valid aaronland/go-http-server URI")
-	definition_uri := fs.String("definition-uri", "accessionnumbers/sfomuseum.org.json", "...")
+	server_uri := fs.String("server-uri", "http://localhost:8080", "A valid aaronland/go-http-server URI.")
+	definition_uri := fs.String("definition-uri", "accessionnumbers/sfomuseum.org.json", "A valid gocloud.dev/runtimevar URI.")
 
 	flagset.Parse(fs)
 
@@ -83,21 +97,23 @@ func main() {
 
 	ctx := context.Background()
 
+	definition_str, err := runtimevar.StringVar(ctx, *definition_uri)
+
+	if err != nil {
+		log.Fatalf("Failed to parse '%s', %v", *definition_uri, err)
+	}
+
+	definition_r := strings.NewReader(definition_str)
+
 	var def *accessionnumbers.Definition
 
-	// TBD...
-
-	log.Println(*definition_uri)
-	
-	/*
-	dec := json.NewDecoder(fh)
+	dec := json.NewDecoder(definition_r)
 	err = dec.Decode(&def)
 
 	if err != nil {
 		log.Fatalf("Failed to decode '%s', %v", *definition_uri, err)
 	}
-	*/
-	
+
 	handler := AccessionNumbersHandler(def)
 
 	mux := http.NewServeMux()
