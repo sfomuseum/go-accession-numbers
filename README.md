@@ -175,6 +175,12 @@ $> ls -la twilio-handler.zip
 
 #### API Gateway
 
+```
+$> curl -X POST -H 'Content-type: application/x-www-form-urlencoded' -d 'Body=Hello world 1994.18.175' https://{PREFIX}.execute-api.{REGION}.amazonaws.com/{APIGATEWAY_NAME}
+The following objects were found in that text:
+https://collection.sfomuseum.org/objects/1994.18.175
+```
+
 ## See also
 
 * https://github.com/sfomuseum/accession-numbers
