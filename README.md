@@ -99,6 +99,60 @@ This would yield:
 2000.058.1185 a c (https://sfomuseum.org/)
 ```
 
+## Tools
+
+```
+$> make cli
+go build -mod vendor -o bin/twilio-handler cmd/twilio-handler/main.go
+```
+
+### twilio-handler
+
+```
+$> ./bin/twilio-handler -h
+  -definition-uri string
+    	A valid gocloud.dev/runtimevar URI. (default "accessionnumbers/sfomuseum.org.json")
+  -server-uri string
+    	A valid aaronland/go-http-server URI. (default "http://localhost:8080")
+```
+
+For example, running the application locally:
+
+```
+$> ./bin/twilio-handler -definition-uri 'file:///usr/local/sfomuseum/accession-numbers/data/sfomuseum.org.json'
+2021/12/20 12:01:11 Listening on http://localhost:8080
+
+$> curl -X POST -H 'Content-type: application/x-www-form-urlencoded' -d 'Body=Hello world 1994.18.175' http://localhost:8080
+The following objects were found in that text:
+https://collection.sfomuseum.org/objects/1994.18.175
+```
+
+### AWS
+
+#### Lambda
+
+```
+$> make lambda-twilio-handler
+if test -f main; then rm -f main; fi
+if test -f twilio-handler.zip; then rm -f twilio-handler.zip; fi
+GOOS=linux go build -mod vendor -o main cmd/twilio-handler/main.go
+zip twilio-handler.zip main
+  adding: main (deflated 58%)
+rm -f main
+
+$> ls -la twilio-handler.zip 
+-rw-r--r--  1 asc  staff  11479660 Dec 20 12:08 twilio-handler.zip
+```
+
+##### Environment variables
+
+| Name | Value | Notes
+| --- | --- | --- |
+| TWILIO_SERVER_URI | `lambda://` | |
+| TWILIO_DEFINITION_URI | string | | ... |
+
+#### API Gateway
+
 ## See also
 
 * https://github.com/sfomuseum/accession-numbers
