@@ -164,7 +164,9 @@ Here's a visual example, posting the body of a wall label to a Twilio SMS number
 
 ![](docs/images/twilio-handler-sm.jpeg)
 
-_Note: The example above depends on a wall label being scanned and input in to the Messages application automatically using the [iOS 15 Live Text functionality](https://support.apple.com/en-us/HT212630). Specifically, what data is sent to the `twilio-handler` application and how that data is input are not concerns addressed by this tool. Absent functionality like "Live Text" a person could manually enter an accession number printed on a wall label and send it, via SMS, to the `twilio-handler` endpoint._
+_The example above depends on a wall label being scanned and input in to the Messages application automatically using the [iOS 15 Live Text functionality](https://support.apple.com/en-us/HT212630). Specifically, what data is sent to the `twilio-handler` application and how that data is input are not concerns addressed by this tool. Absent functionality like "Live Text" a person could manually enter an accession number printed on a wall label and send it, via SMS, to the `twilio-handler` endpoint._
+
+_The `twilio-handler` endpoint returns a list of URLs. How and whether those URLs are expanded, for example whether they are "unfurled" in to images and textual descriptions, is a function of the messaging application being used._
 
 #### Important
 
