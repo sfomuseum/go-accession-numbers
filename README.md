@@ -221,7 +221,7 @@ Once your code has been uploaded to AWS you will need to assign the following en
 | Name | Value | Notes
 | --- | --- | --- |
 | TWILIO_SERVER_URI | `lambda://` | |
-| TWILIO_DEFINITION_URI | string | A valid [gocloud.dev/runtimevar](https://gocloud.dev/howto/runtimevar) `contsvar://` URI referencing an accession numbers definition file. This can be generated using the `flatten-definition` tool described above. |
+| TWILIO_DEFINITION_URI | string | A valid [gocloud.dev/runtimevar](https://gocloud.dev/howto/runtimevar) `constvar://` URI referencing an accession numbers definition file. This can be generated using the `flatten-definition` tool described above. |
 
 ##### API Gateway
 
@@ -230,7 +230,7 @@ In order to access your Lambda function you will need to configure an AWS API Ga
 For example:
 
 ```
-$> curl -X POST -H 'Content-type: application/x-www-form-urlencoded' -d 'Body=Hello world 1994.18.175' https://{PREFIX}.execute-api.{REGION}.amazonaws.com/{APIGATEWAY_NAME}
+$> curl -X POST -H C'ontent-type: application/x-www-form-urlencoded' -d 'Body=Hello world 1994.18.175' https://{PREFIX}.execute-api.{REGION}.amazonaws.com/{APIGATEWAY_NAME}
 The following objects were found in that text:
 https://collection.sfomuseum.org/objects/1994.18.175
 ```
