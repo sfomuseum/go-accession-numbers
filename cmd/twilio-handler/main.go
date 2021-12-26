@@ -92,7 +92,7 @@ func main() {
 	definition_uri := fs.String("definition-uri", "", "A valid gocloud.dev/runtimevar URI. Supported URI schemes are: constant://, file://")
 
 	fs.Usage = func() {
-		fmt.Fprintf(os.Stderr, "twilio-handler provides an HTTP server to listen for and respond to Twilio-style webhook URLs. This server can be run locally or as an AWS Lambda function.\n")
+		fmt.Fprintf(os.Stderr, "twilio-handler provides an HTTP server to listen for and respond to Twilio-style SMS webhook URLs. This server can be run locally or as an AWS Lambda function.\n")
 		fmt.Fprintf(os.Stderr, "Usage:\n\t %s [options\n", os.Args[0])
 		fmt.Fprintf(os.Stderr, "Valid options are:\n")
 		fs.PrintDefaults()

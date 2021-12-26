@@ -135,11 +135,11 @@ constant://?decoder=string&val=%7B%22organization_name%22%3A%22SFO+Museum%22%2C%
 
 ### twilio-handler
 
-twilio-handler provides an HTTP server to listen for and respond to Twilio-style webhook URLs. This server can be run locally or as an AWS Lambda function.
+twilio-handler provides an HTTP server to listen for and respond to Twilio-style SMS webhook URLs. This server can be run locally or as an AWS Lambda function.
 
 ```
 $> ./bin/twilio-handler -h
-twilio-handler provides an HTTP server to listen for and respond to Twilio-style webhook URLs. This server can be run locally or as an AWS Lambda function.
+twilio-handler provides an HTTP server to listen for and respond to Twilio-style SMS webhook URLs. This server can be run locally or as an AWS Lambda function.
 Usage:
 	 ./bin/twilio-handler [options
 Valid options are:
@@ -163,6 +163,8 @@ https://collection.sfomuseum.org/objects/1994.18.175
 Here's a visual example:
 
 ![](docs/images/twilio-handler-sm.jpeg)
+
+_Note: The example above depends on a wall label being scanned and input in to the Messages application automatically using the [iOS 15 Live Text functionality](https://support.apple.com/en-us/HT212630). Specifically, what data is sent to the `twilio-handler` application and how that data is input are not concerns addressed by this tool. Absent functionality like "Live Text" a person could manually enter an accession number printed on a wall label and send it, via SMS, to the `twilio-handler` endpoint._
 
 #### Important
 
