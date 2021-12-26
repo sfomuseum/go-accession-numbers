@@ -109,9 +109,14 @@ go build -mod vendor -o bin/flatten-definition cmd/flatten-definition/main.go
 
 ### flatten-definition
 
+"Flatten" an accession number defintion file by removing all newlines and non-relevant whitespace, optionally encoding the result as a gocloud.dev/runtimevar constvar string.
+
 ```
-> ./bin/flatten-definition -h
-Usage of ./bin/flatten-definition:
+$> ./bin/flatten-definition -h
+"Flatten" an accession number defintion file by removing all newlines and non-relevant whitespace, optionally encoding the result as a gocloud.dev/runtimevar constvar string.
+Usage:
+	 ./bin/flatten-definition [options
+Valid options are:
   -constvar constvar
     	Encode the output as a valid gocloud.dev/runtimevar constvar string.
   -path string
@@ -130,13 +135,19 @@ constant://?decoder=string&val=%7B%22organization_name%22%3A%22SFO+Museum%22%2C%
 
 ### twilio-handler
 
+twilio-handler provides an HTTP server to listen for and respond to Twilio-style webhook URLs. This server can be run locally or as an AWS Lambda function.
+
 ```
 $> ./bin/twilio-handler -h
+twilio-handler provides an HTTP server to listen for and respond to Twilio-style webhook URLs. This server can be run locally or as an AWS Lambda function.
+Usage:
+	 ./bin/twilio-handler [options
+Valid options are:
   -definition-uri string
-    	A valid gocloud.dev/runtimevar URI. (default "accessionnumbers/sfomuseum.org.json")
+    	A valid gocloud.dev/runtimevar URI. Supported URI schemes are: constant://, file://
   -server-uri string
     	A valid aaronland/go-http-server URI. (default "http://localhost:8080")
-```
+```	
 
 For example, running the application locally:
 
@@ -149,9 +160,39 @@ The following objects were found in that text:
 https://collection.sfomuseum.org/objects/1994.18.175
 ```
 
-### AWS
+Here's a visual example:
 
-#### Lambda
+![](docs/images/twilio-handler.jpeg)
+
+#### Important
+
+The `twilio-handler` depends on the definition file it is configured to use having an `object_url` property containing a valid URI Template ([RFC 6560](https://tools.ietf.org/html/rfc6570)) that can be used to resolve an accession number in to an object URL. For example, here is a abbreviated version of the [definition file for the Rijksmuseum](https://github.com/sfomuseum/accession-numbers/blob/main/data/rijksmuseum.nl.org.json):
+
+```
+{
+    "organization_name": "Rijksmuseum",
+    "organization_url": "https://www.rijksmuseum.nl",
+    "object_url": "https://www.rijksmuseum.nl/en/collection/{accession_number}",    
+    "patterns": [
+    {
+	    "label": "common",
+	    "pattern": "((?:\\-?(?:[A-Z]{1,}|(?:\\d[A-Z]{1,}))\\-[0-9A-Z]+(?:(?:\\-[0-9A-Z]+){1,})?))",
+	    "tests": {
+
+             }
+     }
+}
+```
+
+_Tangentially related: The [aaronland/fake-accession-number-apis](https://github.com/aaronland/fake-accession-number-apis) project._
+
+#### AWS
+
+It is also possible to deploy the `twilio-handler` server as an AWS Lambda function.
+
+##### Lambda
+
+To compile the server as a valid Lambda function use the `lambda-twilio-handler` Makefile target. For example:
 
 ```
 $> make lambda-twilio-handler
@@ -166,14 +207,20 @@ $> ls -la twilio-handler.zip
 -rw-r--r--  1 asc  staff  11479660 Dec 20 12:08 twilio-handler.zip
 ```
 
-##### Environment variables
+###### Environment variables
+
+Once your code has been uploaded to AWS you will need to assign the following environment variables:
 
 | Name | Value | Notes
 | --- | --- | --- |
 | TWILIO_SERVER_URI | `lambda://` | |
-| TWILIO_DEFINITION_URI | string | A valid `gocloud.dev/runtimevar` URI. In a Lambda context this would mean a `constvar://` URI that can be generated using the `flatten-definition` tool described above. |
+| TWILIO_DEFINITION_URI | string | A valid `gocloud.dev/runtimevar` URI referencing an accession numbers definition file. In a Lambda context this would mean a `constvar://` URI that can be generated using the `flatten-definition` tool described above. |
 
-#### API Gateway
+##### API Gateway
+
+In order to access your Lambda function you will need to configure an AWS API Gateway endpoint to forward HTTP `POST` requests. For details please consult the [Using AWS Lambda with Amazon API Gateway documentation](https://docs.aws.amazon.com/lambda/latest/dg/services-apigateway.html).
+
+For example:
 
 ```
 $> curl -X POST -H 'Content-type: application/x-www-form-urlencoded' -d 'Body=Hello world 1994.18.175' https://{PREFIX}.execute-api.{REGION}.amazonaws.com/{APIGATEWAY_NAME}
@@ -181,6 +228,14 @@ The following objects were found in that text:
 https://collection.sfomuseum.org/objects/1994.18.175
 ```
 
+#### Twilio
+
+For details on configuring your Twilio account to invoke the `twilio-handler` server please consult the [Twilio SMS Webhooks documentation](https://www.twilio.com/docs/usage/webhooks/sms-webhooks).
+
 ## See also
 
 * https://github.com/sfomuseum/accession-numbers
+* https://www.twilio.com/docs/usage/webhooks/sms-webhooks
+* https://www.twilio.com/docs/messaging/guides/webhook-request
+* https://gocloud.dev/howto/runtimevar/
+* https://github.com/sfomuseum/runtimevar

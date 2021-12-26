@@ -19,6 +19,13 @@ func main() {
 	path := flag.String("path", "", "The path your sfomuseum/accession-numbers definition file.")
 	constvar := flag.Bool("constvar", false, "Encode the output as a valid gocloud.dev/runtimevar `constvar` string.")
 
+	flag.Usage = func() {
+		fmt.Fprintf(os.Stderr, "\"Flatten\" an accession number defintion file by removing all newlines and non-relevant whitespace, optionally encoding the result as a gocloud.dev/runtimevar constvar string.\n")
+		fmt.Fprintf(os.Stderr, "Usage:\n\t %s [options\n", os.Args[0])
+		fmt.Fprintf(os.Stderr, "Valid options are:\n")
+		flag.PrintDefaults()
+	}
+
 	flag.Parse()
 
 	abs_path, err := filepath.Abs(*path)

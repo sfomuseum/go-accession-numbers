@@ -1,3 +1,4 @@
+// twilio-handler provides an HTTP server to listen for and respond to Twilio-style webhook URLs. This server can be run locally or as an AWS Lambda function.
 package main
 
 /*
@@ -23,11 +24,14 @@ import (
 	_ "gocloud.dev/runtimevar/filevar"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 )
 
 /*
 Twilio makes HTTP requests to your application, just like a regular web browser, in the format application/x-www-form-urlencoded. By including parameters and values in its requests, Twilio sends data to your application that you can act upon before responding.
+
+https://www.twilio.com/docs/messaging/guides/webhook-request
 */
 
 func AccessionNumbersHandler(def *accessionnumbers.Definition) http.Handler {
@@ -85,7 +89,14 @@ func main() {
 	fs := flagset.NewFlagSet("twilio")
 
 	server_uri := fs.String("server-uri", "http://localhost:8080", "A valid aaronland/go-http-server URI.")
-	definition_uri := fs.String("definition-uri", "accessionnumbers/sfomuseum.org.json", "A valid gocloud.dev/runtimevar URI.")
+	definition_uri := fs.String("definition-uri", "", "A valid gocloud.dev/runtimevar URI. Supported URI schemes are: constant://, file://")
+
+	fs.Usage = func() {
+		fmt.Fprintf(os.Stderr, "twilio-handler provides an HTTP server to listen for and respond to Twilio-style webhook URLs. This server can be run locally or as an AWS Lambda function.\n")
+		fmt.Fprintf(os.Stderr, "Usage:\n\t %s [options\n", os.Args[0])
+		fmt.Fprintf(os.Stderr, "Valid options are:\n")
+		fs.PrintDefaults()
+	}
 
 	flagset.Parse(fs)
 
