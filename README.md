@@ -160,13 +160,16 @@ The following objects were found in that text:
 https://collection.sfomuseum.org/objects/1994.18.175
 ```
 
-Here's a visual example:
+Here's a visual example, posting the body of a wall label to a Twilio SMS number that invokes a `twilio-handler` server endpoint:
 
 ![](docs/images/twilio-handler-sm.jpeg)
 
 _Note: The example above depends on a wall label being scanned and input in to the Messages application automatically using the [iOS 15 Live Text functionality](https://support.apple.com/en-us/HT212630). Specifically, what data is sent to the `twilio-handler` application and how that data is input are not concerns addressed by this tool. Absent functionality like "Live Text" a person could manually enter an accession number printed on a wall label and send it, via SMS, to the `twilio-handler` endpoint._
 
 #### Important
+
+The details of create a Twilio SMS number and of configuring it to invoke the `twilio-handler` server are out of scope for this documentation. Please consult the Twilio [
+Set Up an SMS Forwarding Number in 5 Minutes with Twilio](https://www.twilio.com/blog/2016/11/set-up-an-sms-forwarding-number-in-5-minutes-with-twilio.html) and [SMS Webhooks](https://www.twilio.com/docs/usage/webhooks/sms-webhooks) documentation.
 
 The `twilio-handler` depends on the definition file it is configured to use having an `object_url` property containing a valid URI Template ([RFC 6560](https://tools.ietf.org/html/rfc6570)) that can be used to resolve an accession number in to an object URL. For example, here is a abbreviated version of the [definition file for the Rijksmuseum](https://github.com/sfomuseum/accession-numbers/blob/main/data/rijksmuseum.nl.org.json):
 
@@ -229,10 +232,6 @@ $> curl -X POST -H 'Content-type: application/x-www-form-urlencoded' -d 'Body=He
 The following objects were found in that text:
 https://collection.sfomuseum.org/objects/1994.18.175
 ```
-
-#### Twilio
-
-For details on configuring your Twilio account to invoke the `twilio-handler` server please consult the [Twilio SMS Webhooks documentation](https://www.twilio.com/docs/usage/webhooks/sms-webhooks).
 
 ## See also
 
