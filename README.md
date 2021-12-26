@@ -162,7 +162,7 @@ https://collection.sfomuseum.org/objects/1994.18.175
 
 Here's a visual example:
 
-![](docs/images/twilio-handler.jpeg)
+![](docs/images/twilio-handler-sm.jpeg)
 
 #### Important
 
