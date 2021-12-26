@@ -216,7 +216,7 @@ $> ls -la twilio-handler.zip
 
 ###### Environment variables
 
-Once your code has been uploaded to AWS you will need to assign the following environment variables:
+Once your code has been uploaded to AWS you will need to assign the following environment variables to your Lambda function:
 
 | Name | Value | Notes
 | --- | --- | --- |
