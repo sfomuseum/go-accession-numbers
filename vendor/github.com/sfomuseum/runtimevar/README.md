@@ -2,6 +2,10 @@
 
 Simple wrapper around the Go Cloud runtimevar package
 
+## Documentation
+
+[![Go Reference](https://pkg.go.dev/badge/github.com/sfomuseum/runtimevar.svg)](https://pkg.go.dev/github.com/sfomuseum/runtimevar)
+
 ## Example
 
 ```
@@ -11,6 +15,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	
 	"github.com/sfomuseum/runtimevar"
 	_ "gocloud.dev/runtimevar/awsparamstore"
 	_ "gocloud.dev/runtimevar/constantvar"
@@ -32,17 +37,28 @@ func main() {
 
 ## Tools
 
+```
+$> make cli
+go build -mod vendor -ldflags="-s -w" -o bin/runtimevar cmd/runtimevar/main.go
+```
+
 ### runtimevar
+
+```
+$> ./bin/runtimevar -h
+Usage of ./bin/runtimevar:
+  -timeout int
+    	The maximum number of second in which a variable can be resolved. If 0 no timeout is applied.
+```
 
 ```
 $> go run cmd/runtimevar/main.go 'constant://?val=hello+world'
 hello world
 ```
 
-The following Go Cloud `runtimevar` services are supported by the runtimevar tool:
+The following Go Cloud `runtimevar` services are supported by the runtimevar tool by default:
 
 * [AWS Parameter Store](https://gocloud.dev/howto/runtimevar/#awsps)
-* [Blob](https://gocloud.dev/howto/runtimevar/#blob)
 * [Local](https://gocloud.dev/howto/runtimevar/#local)
 
 ### AWS Parameter Store
@@ -62,8 +78,8 @@ Credentials for AWS sessions are defined as string labels. They are:
 | --- | --- |
 | `env:` | Read credentials from AWS defined environment variables. |
 | `iam:` | Assume AWS IAM credentials are in effect. |
-| `{AWS_PROFILE_NAME}` | This this profile from the default AWS credentials location. |
-| `{AWS_CREDENTIALS_PATH}:{AWS_PROFILE_NAME}` | This this profile from a user-defined AWS credentials location. |
+| `{AWS_PROFILE_NAME}` | Use the profile from the default AWS credentials location. |
+| `{AWS_CREDENTIALS_PATH}:{AWS_PROFILE_NAME}` | Use the profile from a user-defined AWS credentials location. |
 
 ## See also
 
