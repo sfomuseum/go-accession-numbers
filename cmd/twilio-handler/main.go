@@ -16,16 +16,17 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
+	"net/http"
+	"os"
+	"strings"
+
 	"github.com/aaronland/go-http-server"
 	"github.com/sfomuseum/go-accession-numbers"
 	"github.com/sfomuseum/go-flags/flagset"
 	"github.com/sfomuseum/runtimevar"
 	_ "gocloud.dev/runtimevar/constantvar"
 	_ "gocloud.dev/runtimevar/filevar"
-	"log"
-	"net/http"
-	"os"
-	"strings"
 )
 
 /*

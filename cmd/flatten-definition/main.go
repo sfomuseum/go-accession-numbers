@@ -6,12 +6,13 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"github.com/sfomuseum/go-accession-numbers"
 	"io"
 	"log"
 	"net/url"
 	"os"
 	"path/filepath"
+
+	"github.com/sfomuseum/go-accession-numbers"
 )
 
 func main() {
@@ -31,7 +32,7 @@ func main() {
 	abs_path, err := filepath.Abs(*path)
 
 	if err != nil {
-		log.Fatalf("Failed to derive absolute path for '%s', %v", path, err)
+		log.Fatalf("Failed to derive absolute path for '%s', %v", *path, err)
 	}
 
 	_, err = os.Stat(abs_path)
